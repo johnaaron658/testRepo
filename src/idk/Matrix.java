@@ -88,6 +88,9 @@ public class Matrix {
 	}
 	
 	//Diagonal
+	public boolean diagonal(){
+		
+	}
 	
 	/*MATRIX OPERATIONS*/
 	
