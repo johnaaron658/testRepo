@@ -20,15 +20,18 @@ public class Vector {
 	}
 	
 	/*GETTERS*/
-
+	
+	//Length of vector array
 	public int length(){
 		return vector.length;
 	}
 	
+	//Get Array
 	public Fraction[] array(){
 		return vector;
 	}
 	
+	//Converts vector to string
 	public String toString(boolean type){
 		String s = new String();
 		
@@ -53,6 +56,17 @@ public class Vector {
 		return this.toString(true);
 	}
 	
+	/*ACCESSING ELEMENTS*/
+	
+	//Access element for row vectors
+	public Fraction column(int j){
+		return this.array()[j]; 
+	}
+	
+	//Access element for column vectors
+	public Fraction row(int i){
+		return this.array()[i];
+	}
 	
 	/*VECTOR OPERATIONS*/
 	
