@@ -56,11 +56,40 @@ class Fraction {
       return (n / d);		
     }
   
+  /*STUFF I ADDED*/
+  
   public int toInt(){
 	  int thisGcd = gcd(numerator,denominator);
 	  if(denominator/thisGcd == 1)
 		  return numerator;
 	  return numerator/denominator;
+  }
+  
+  //Reduces fraction to lowest terms
+  public Fraction reduced(){
+	  int GCD = gcd(this.numerator,this.denominator);
+	  return new Fraction(this.numerator/GCD,this.denominator/GCD);
+  }
+  
+  /*GETTERS*/
+  
+  //Returns numerator
+  public int getNum(){
+	  return numerator;
+  }
+  
+  //Rerturns denominator
+  public int getDen(){
+	  return denominator;
+  }
+  
+  /*FRACTION COMPARISON*/
+  
+  public boolean isEqualTo(Fraction x){
+	  if(this.reduced().getNum() == x.reduced().getNum() &&
+		 this.reduced().getDen() == x.reduced().getDen())
+		  return true;
+	  return false;
   }
   
   /**FRACTION OPERATIONS **/
@@ -89,7 +118,7 @@ class Fraction {
 	  return this.plus(f2.times(new Fraction(-1)));
   }
 
-  
+  /*EXTRA STUFF*/
   private static int gcd (int x, int y) {
 		int a,b,r,t;
 		x = Math.abs(x);	//Both values are assumed to be positive
