@@ -82,14 +82,56 @@ public class Matrix {
 	
 	//Square
 	public boolean square(){
-		if(this.row.length == this.column.length)
+		if(this.row.length == this.column.length) //IF same dimensions
 			return true;
-		return false;
+		return false; //Else
 	}
 	
 	//Diagonal
 	public boolean diagonal(){
+		if(this.square() == false)
+			return false;
+		int order = this.row.length;
+		for(int i = 0; i < order; i++){			
+			for(int j = 0; j < order; j++){
+				
+				//if one of the diagonal entries is zero or if one of the non-diagonal entries is non-zero
+				if( (i == j && this.row(i).column(j).isEqualTo(new Fraction(0)) )||
+					(i != j && !this.row(i).column(j).isEqualTo(new Fraction(0)) ) ) 
+					return false;
+			}
+		}
 		
+		return true;
+	}
+	
+	//Trace
+	public Fraction trace(){
+		if(this.square() == false){
+			System.out.println("This matrix is not square. It cannot have a trace.");
+			return null;
+		}
+		
+		int order = this.row.length;
+		Fraction sum = new Fraction(0); //Initialize 0 fraction
+		
+		//Add all entries in the diagonal
+		for(int i = 0; i < order; i++){
+			for (int j = 0; j < order ;j++){
+				if(i == j)
+					sum = sum.plus(this.row(i).column(j));
+			}
+		}
+		return sum;
+	}
+	
+	
+	/*MATRIX COMPARISON*/
+	
+	public boolean hasSameSizeAs(Matrix B){
+		if(this.row.length == B.row.length && this.column.length == B.column.length)
+			return true;
+		return false;
 	}
 	
 	/*MATRIX OPERATIONS*/
@@ -110,7 +152,7 @@ public class Matrix {
 	//Matrix Addition
 	public Matrix plus(Matrix B,Fraction scalar){
 		
-		if(this.row.length == B.row.length && this.column.length == B.column.length){
+		if(this.hasSameSizeAs(B)){
 			
 			B = B.scale(scalar);
 			
