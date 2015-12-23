@@ -4,32 +4,19 @@ public class Matrix {
 	
 	/*PRIVATE STUFF*/
 	
-	private Vector[] row;
-	private Vector[] column;
-
+	private Fraction[][] INNER_MATRIX;
+	
+	
+	/*PUBLIC STUFF*/
+	
+	public Vector[] row;
+	public Vector[] column;
+	
 	
 	/*CONSTRUCTORS*/
 	
-	public Matrix(int array[][]){
-		row = new Vector[array.length];
-		column = new Vector[array[0].length];
-		
-		//Initializes matrix row vectors
-		for(int i = 0 ; i < array.length ; i++){
-			row[i] = new Vector(array[i]);
-		}
-		
-		//Initializes matrix column vectors
-		int[] temp = new int[array.length];
-		for(int i = 0; i < array[0].length ; i++){
-			for(int j = 0; j < array.length; j++)
-				temp[j] = array[j][i];
-			column[i] = new Vector(temp);
-		}
-	}
-	
 	public Matrix(Fraction array[][]){
-		
+		INNER_MATRIX = array;
 		row = new Vector[array.length];
 		column = new Vector[array[0].length];
 		
@@ -40,12 +27,36 @@ public class Matrix {
 		
 		//Initializes matrix column vectors
 		Fraction[] temp = new Fraction[array.length];
-		for(int i = 0; i < array[0].length ; i++){
+		for(int k = 0; k < array[0].length ; k++){
 			for(int j = 0; j < array.length; j++)
-				temp[j] = array[j][i];
-			column[i] = new Vector(temp);
-		}
+				temp[j] = array[j][k];
+			column[k] = new Vector(temp);
+		}	
+	}
+	
+	public Matrix(int matrix[][]){
+		row = new Vector[matrix.length];
+		column = new Vector[matrix[0].length];
 		
+		//Creates inner matrix with same size as int matrix
+		INNER_MATRIX = new Fraction[matrix.length][matrix[0].length];
+		
+		//temporary Fraction array to store column entries
+		Fraction[] temp = new Fraction[matrix.length];
+		
+		for(int i = 0; i < matrix.length; i++){
+			
+			for(int j = 0 ; j < matrix[0].length; j++){
+				INNER_MATRIX[i][j] = new Fraction(matrix[i][j]); //For initializing INNER_MATRIX
+				
+				if(i == 0){										 //For initializing column vectors (but this only has to happen once in the outer loop)
+					for(int k = 0; k < matrix.length; k++)
+						temp[k] = new Fraction(matrix[k][j]);	
+					column[j] = new Vector(temp);
+				}
+			}
+			row[i] = new Vector(matrix[i]);
+		}		
 	}
 	
 	public Matrix(int rows, int columns){
@@ -57,6 +68,7 @@ public class Matrix {
 		this.row = rows;
 		this.column = columns;
 	}
+	
 	
 	/*GETTERS*/
 	
@@ -77,9 +89,13 @@ public class Matrix {
 			return s;	
 	}
 	
+	public Fraction[][] toGrid(){
+		return INNER_MATRIX;
+	}
+	
 	/*MATRIX ALTERATIONS*/
 	
-
+	
 	
 	/*MATRIX PROPERTIES*/
 	/*CONTENTS:
@@ -136,7 +152,10 @@ public class Matrix {
 	
 	
 	/*MATRIX COMPARISON*/
+	/*Contents: 
+	 * -Size comparison */
 	
+	//Size comparison
 	public boolean hasSameSizeAs(Matrix B){
 		if(this.row.length == B.row.length && this.column.length == B.column.length)
 			return true;
@@ -161,7 +180,7 @@ public class Matrix {
 	
 	//Transpose	
 	public Matrix transpose(){
-		return new Matrix(column,row);
+		return new Matrix(this.column,this.row);
 	}
 	
 	//Matrix Addition
@@ -207,7 +226,7 @@ public class Matrix {
 	
 	public Matrix times(Matrix B,Fraction scalar){
 
-		if(column.length == B.row.length){ //Sufficient conditions for matrix multiplication to occur
+		if(column.length == B.row.length){ //Sufficient conditions for matrix multiplication to be defined
 			
 			B = B.scale(scalar);
 			

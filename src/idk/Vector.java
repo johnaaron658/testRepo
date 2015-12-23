@@ -63,10 +63,12 @@ public class Vector {
 		return this.toString(true);
 	}
 	
+
+	
 	/*ACCESSING ELEMENTS*/
 	
 	//Access element for row vectors
-	public Fraction column(int j){
+ 	public Fraction column(int j){
 		return this.array()[j]; 
 	}
 	
