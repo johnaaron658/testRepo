@@ -1,6 +1,7 @@
 package idk;
 
 public class Matrix {
+	
 	/*PRIVATE STUFF*/
 	
 	private Vector[] row;
@@ -68,17 +69,23 @@ public class Matrix {
 	}
 	
 	public String toString(){
-		String s = new String();
-		
-		for(int i = 0; i < row.length; i++){
-			
-			s = s + row[i].toString(); //each row is converted to a string
-			s = s + "\n";
-		}
-		return s;
+		String s = new String();		
+			for(int i = 0; i < row.length; i++){
+				s = s + row[i].toString(); //each row is converted to a string
+				s = s + "\n";
+			}
+			return s;	
 	}
 	
+	/*MATRIX ALTERATIONS*/
+	
+
+	
 	/*MATRIX PROPERTIES*/
+	/*CONTENTS:
+	 * -Square
+	 * -Diagonal
+	 * -Trace*/
 	
 	//Square
 	public boolean square(){
@@ -89,8 +96,10 @@ public class Matrix {
 	
 	//Diagonal
 	public boolean diagonal(){
-		if(this.square() == false)
+		if(this.square() == false){
+			System.out.println("Matrix is not square in the first place");
 			return false;
+		}
 		int order = this.row.length;
 		for(int i = 0; i < order; i++){			
 			for(int j = 0; j < order; j++){
@@ -134,7 +143,13 @@ public class Matrix {
 		return false;
 	}
 	
+	
 	/*MATRIX OPERATIONS*/
+	/*Contents: 
+	 * -Scalar Multiplication
+	 * -Transpose
+	 * -Addition
+	 * -Multiplication */
 	
 	//Scalar Multiplication
 	public Matrix scale(Fraction scalar){
@@ -152,22 +167,20 @@ public class Matrix {
 	//Matrix Addition
 	public Matrix plus(Matrix B,Fraction scalar){
 		
-		if(this.hasSameSizeAs(B)){
-			
-			B = B.scale(scalar);
-			
-			for(int i = 0; i < row.length; i++){
+			if(this.hasSameSizeAs(B)){
 				
-				row[i] = row[i].plus(B.row[i]);
+				B = B.scale(scalar);
+				//Matrix SUM = new Matrix(this.row.length,this.column.length);
 				
+				for(int i = 0; i < row.length; i++){
+					
+					this.row[i] = this.row[i].plus(B.row[i]);
+					
+				}			
+				return this;
 			}
-			
-			return this;
-		}
-		else{
-			System.out.println("Undefined!");
+			System.out.println("Addition Undefined!");
 			return null;
-		}
 	}
 	
 	public Matrix plus(Matrix B,int scalar){

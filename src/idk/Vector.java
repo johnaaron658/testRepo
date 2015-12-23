@@ -19,6 +19,10 @@ public class Vector {
 		}
 	}
 	
+	public Vector (int size){
+		this(new int[size]);
+	}
+	
 	/*GETTERS*/
 	
 	//Length of vector array
@@ -37,19 +41,22 @@ public class Vector {
 		
 		//If TRUE - ROW VECTOR
 		//IF FALSE - COLUMN VECTOR
-		
-		if(type == true){
+		try{
+			if(type == true){
+				for(int i = 0; i < vector.length; i++){
+					s = s+this.vector[i].toString();
+					s = s+" ";
+				}
+				return s;
+			}
 			for(int i = 0; i < vector.length; i++){
-				s = s+this.vector[i].toString();
-				s = s+" ";
+				s.concat(vector[i].toString());
+				s.concat("\n");
 			}
 			return s;
+		}catch(NullPointerException error){
+			return "Cannot convert this Vector to String."+error.toString();
 		}
-		for(int i = 0; i < vector.length; i++){
-			s.concat(vector[i].toString());
-			s.concat("\n");
-		}
-		return s;
 	}
 	
 	public String toString(){
@@ -85,16 +92,18 @@ public class Vector {
 	//Vector Addition
 	public Vector plus(Vector v2,Fraction scalar){
 		//vector addition is only defined for vectors of same no. of components
-		if(v2.length() == vector.length){ 
+		if(v2.length() == this.vector.length){ 
 			int i = 0;
 			v2 = v2.scale(scalar);
-			for(Fraction x: vector){
-				x = x.plus(v2.array()[i]);
+			Vector SUM = new Vector(this.vector.length);
+			for(Fraction x: this.vector){
+				SUM.vector[i] = x.plus(v2.array()[i]);
 				i++;
 			}
-			return new Vector(vector);
+			return SUM;
 		}
-		return new Vector(vector);
+		System.out.println("Cannot add two vectors of different sizes.");
+		return null;
 	//use try and catch for exception handling	
 	}
 	
